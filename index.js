@@ -1,10 +1,11 @@
-import { Client, GatewayIntentBits, Collection, Events } from "discord.js";
+import { Client, GatewayIntentBits, Collection, Events, EmbedBuilder } from "discord.js";
 import fs from "fs";
 import path from "path";
 
 const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildMembers,
     GatewayIntentBits.GuildMessages,
     GatewayIntentBits.MessageContent
   ]
@@ -54,4 +55,7 @@ client.on(Events.MessageCreate, async message => {
   await command.execute(message, args);
 });
 
-client.login(process.env.TOKEN);
+/* ===== HOŞGELDİN SİSTEMİ ===== */
+
+client.on(Events.GuildMemberAdd, async member => {
+  const channel = member.gu
