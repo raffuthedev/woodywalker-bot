@@ -55,8 +55,6 @@ client.on(Events.MessageCreate, async message => {
   await command.execute(message, args);
 });
 
-/* ===== HOŞGELDİN SİSTEMİ ===== */
-
 client.on(Events.GuildMemberAdd, async member => {
   const channel = member.guild.systemChannel;
   if (!channel) return;
