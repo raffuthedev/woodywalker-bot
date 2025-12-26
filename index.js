@@ -1,6 +1,15 @@
 import { Client, GatewayIntentBits, Collection, Events, EmbedBuilder } from "discord.js";
 import fs from "fs";
 import path from "path";
+import express from "express";
+
+const app = express();
+
+app.get("/", (req, res) => {
+  res.send("OK");
+});
+
+app.listen(3000);
 
 const client = new Client({
   intents: [
@@ -20,7 +29,6 @@ const commandFiles = fs.readdirSync(commandsPath).filter(f => f.endsWith(".js"))
 for (const file of commandFiles) {
   const filePath = path.join(commandsPath, file);
   const command = (await import(`file://${filePath}`)).default;
-
   if (!command?.name || !command?.execute) continue;
   client.commands.set(command.name, command);
 }
@@ -34,10 +42,7 @@ const PREFIX = "!";
 client.on(Events.MessageCreate, async message => {
   if (message.author.bot) return;
 
-  if (
-    client.mediaOnlyChannel &&
-    message.channel.id === client.mediaOnlyChannel
-  ) {
+  if (client.mediaOnlyChannel && message.channel.id === client.mediaOnlyChannel) {
     if (message.attachments.size === 0) {
       await message.delete().catch(() => {});
       return;
