@@ -1,4 +1,3 @@
-// BU BOT SHIVADA TARAFINDAN YAZILMISTIR IZINSIZ KULLANIMDA TELİF HAKLARI UYGULANIR BILGINIZE!
 import { EmbedBuilder } from "discord.js";
 
 export default {
@@ -14,17 +13,9 @@ export default {
       0xe74c3c
     ];
 
-    const randomColor = colors[Math.floor(Math.random() * colors.length)];
-
     const embed = new EmbedBuilder()
-      .setTitle("Bugün Ne Oynayalım??")
-      .setColor(randomColor);
-
-    await message.channel.send({
-      embeds: [embed]
-    });
-
-    const pollMessage = await message.channel.send(
+      .setTitle("Bugün Yayında Ne Oynayalım??")
+      .setDescription(
 `Bugün Yayında Hangi Oyunu Oynamamızı İstiyorsanız Onun Tepkimesine Tıklayabilirsiniz!
 
 Minecraft = 👾
@@ -33,9 +24,14 @@ Pubg = ⚔️
 Gartic Phone = 🖋️
 Feign = 🔪
 
-Oylama Yayın Başladığında Sona Erecektir  
+Oylama Yayın Başladığında Sona Erecektir
 Yayın Başladıktan İtibaren Oylar Sayılmayacaktır`
-    );
+      )
+      .setColor(colors[Math.floor(Math.random() * colors.length)]);
+
+    const pollMessage = await message.channel.send({
+      embeds: [embed]
+    });
 
     await pollMessage.react("👾");
     await pollMessage.react("🔫");
