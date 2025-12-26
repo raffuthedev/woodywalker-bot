@@ -61,8 +61,10 @@ client.on(Events.MessageCreate, async message => {
 });
 
 client.on(Events.GuildMemberAdd, async member => {
-  const channel = member.guild.systemChannel;
-  if (!channel) return;
+  const channelIds = [
+    "1185514368390152212",
+    "1454178701733531789"
+  ];
 
   const embed = new EmbedBuilder()
     .setTitle("WoodyWalker Discord Topluluğuna Hoşgeldin")
@@ -78,7 +80,12 @@ https://kick.com/xwoodywalker`
     .setColor(0x00ff99)
     .setFooter({ text: "İyi Sohbetler Dileriz" });
 
-  await channel.send({ embeds: [embed] });
+  for (const id of channelIds) {
+    const channel = member.guild.channels.cache.get(id);
+    if (channel) {
+      await channel.send({ embeds: [embed] }).catch(() => {});
+    }
+  }
 });
 
 client.login(process.env.TOKEN);
