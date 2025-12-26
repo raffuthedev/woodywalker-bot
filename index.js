@@ -33,8 +33,17 @@ for (const file of commandFiles) {
   client.commands.set(command.name, command);
 }
 
-client.once(Events.ClientReady, () => {
-  console.log(`READY: ${client.user.tag}`);
+client.once('clientReady', () => {
+  console.log(`${client.user.tag} olarak giriş yapıldı!`);
+
+  setTimeout(() => {
+    client.user.setPresence({
+      activities: [
+        { name: 'Kick: xWoodyWalker', type: 0 }
+      ],
+      status: 'online'
+    });
+  }, 5000);
 });
 
 const PREFIX = "!";
