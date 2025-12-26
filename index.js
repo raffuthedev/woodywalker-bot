@@ -58,4 +58,24 @@ client.on(Events.MessageCreate, async message => {
 /* ===== HOŞGELDİN SİSTEMİ ===== */
 
 client.on(Events.GuildMemberAdd, async member => {
-  const channel = member.gu
+  const channel = member.guild.systemChannel;
+  if (!channel) return;
+
+  const embed = new EmbedBuilder()
+    .setTitle("WoodyWalker Discord Topluluğuna Hoşgeldin")
+    .setDescription(
+`${member}
+
+Aramıza Hoşgeldin Dostum!
+Herkes Yeni Üyemize Hoşgeldin Desinn!!
+
+https://kick.com/xwoodywalker`
+    )
+    .setThumbnail(member.user.displayAvatarURL({ dynamic: true }))
+    .setColor(0x00ff99)
+    .setFooter({ text: "İyi Sohbetler Dileriz" });
+
+  await channel.send({ embeds: [embed] });
+});
+
+client.login(process.env.TOKEN);
