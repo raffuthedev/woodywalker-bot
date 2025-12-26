@@ -11,6 +11,7 @@ const client = new Client({
 });
 
 client.commands = new Collection();
+client.mediaOnlyChannel = null;
 
 const commandsPath = path.join(process.cwd(), "komutlar");
 const commandFiles = fs.readdirSync(commandsPath).filter(f => f.endsWith(".js"));
@@ -20,7 +21,6 @@ for (const file of commandFiles) {
   const command = (await import(`file://${filePath}`)).default;
 
   if (!command?.name || !command?.execute) continue;
-
   client.commands.set(command.name, command);
 }
 
@@ -32,6 +32,17 @@ const PREFIX = "!";
 
 client.on(Events.MessageCreate, async message => {
   if (message.author.bot) return;
+
+  if (
+    client.mediaOnlyChannel &&
+    message.channel.id === client.mediaOnlyChannel
+  ) {
+    if (message.attachments.size === 0) {
+      await message.delete().catch(() => {});
+      return;
+    }
+  }
+
   if (!message.content.startsWith(PREFIX)) return;
 
   const args = message.content.slice(PREFIX.length).trim().split(/ +/);
